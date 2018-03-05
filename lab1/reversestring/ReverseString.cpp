@@ -4,18 +4,15 @@
 
 #include "ReverseString.h"
 #include <string>
+#include <iostream>
 
 std::string reverse(std::string str) {
-    std::string result;
     size_t size = str.size();
 
     if(size <= 1){
         return str;
     }
     else{
-        str.erase(0,1);
-        reverse(str);
-        result.push_back(str[0]);
-        return result;
+        return reverse(str.substr(1)) + str[0];
     }
 }
