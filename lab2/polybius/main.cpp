@@ -9,7 +9,7 @@
 #include <iostream>
 
 int main(int argc, char **argv) {
-    std::cout << PolybiusCrypt("SCISLE TAJNE") << std::endl;
+    std::cout << PolybiusDecrypt("111213141521") << std::endl;
 
     return 0;
 }
