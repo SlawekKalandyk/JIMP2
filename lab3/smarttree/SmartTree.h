@@ -10,6 +10,7 @@
 #include <memory>
 
 namespace datastructures {
+
     typedef struct SmartTree {
         int value;
         std::unique_ptr<SmartTree> left = nullptr;
