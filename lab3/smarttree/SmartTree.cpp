@@ -62,11 +62,12 @@ namespace datastructures {
 
         int i = 1;
         while (tree[i] != ' ' && tree[i] != ']') {
-            if(tree[i] != '[') {
+            if (tree[i] != '[') {
                 str_value += tree[i];
             }
             i++;
-        }std::cout <<str_value<<std::endl;
+        }
+
         if (str_value == "none") {
             return nullptr;
         } else {
@@ -74,20 +75,22 @@ namespace datastructures {
         }
 
         int startbrackets = 1;
-        int j = i;
-        while (startbrackets) {
+        int j = i + 1;
+        while (j < tree.size()) {
             if (tree[j] == '[') {
                 startbrackets++;
-            } else if (tree[j] == ']') {
+            }
+            if (tree[j] == ']') {
                 startbrackets--;
             }
-            if (startbrackets == 0) {
-                left_tree = tree.substr(i + 1, j);
+            if (startbrackets == 1) {
+                left_tree = tree.substr(i + 1, j - (i + 1) + 1);
+                break;
             }
             j++;
         }
 
-        right_tree = tree.substr(j, tree.size() - j);
+        right_tree = tree.substr(j + 2, tree.size() - (j + 2));
 
         output->left = RestoreTree(left_tree);
         output->right = RestoreTree(right_tree);
