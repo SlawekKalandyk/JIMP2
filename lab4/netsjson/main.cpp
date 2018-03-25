@@ -7,6 +7,7 @@
 #include <vector>
 #include <map>
 #include "SimpleJson.h"
+#include "SimpleJson.cpp"
 
 using ::std::vector;
 using ::std::map;

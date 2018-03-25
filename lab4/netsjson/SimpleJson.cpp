@@ -55,7 +55,7 @@ namespace nets {
     }
 
     optional<JsonValue> JsonValue::ValueByName(const string &name) const {
-        return mVal.at(name);
+
     }
 
     string JsonValue::ToString() const {
@@ -63,7 +63,8 @@ namespace nets {
 
         if (iInit) {
             output = std::to_string(iVal);
-        } else if (dInit) {
+        }
+        if (dInit) {
             output = std::to_string(dVal);
 
             for (int i = 0; i < output.size(); i++) {
@@ -80,23 +81,26 @@ namespace nets {
                     break;
                 }
             }
-        } else if (bInit) {
+        }
+        if (bInit) {
             if (bVal) {
                 output = "true";
             } else {
                 output = "false";
             }
-        } else if (sInit) {
+        }
+        if (sInit) {
             output = sVal;
 
-            for(int i = output.size() - 1; i >= 0; i--) {
-                if(output[i] == '"' || output[i] == '\\') {
-                    output.insert(i,"\\");
+            for (int i = output.size() - 1; i >= 0; i--) {
+                if (output[i] == '"' || output[i] == '\\') {
+                    output.insert(i, "\\");
                 }
             }
 
             output = "\"" + output + "\"";
-        } else if (vInit) {
+        }
+        if (vInit) {
             output = "[";
             for (int i = 0; i < vVal.size(); i++) {
                 output += vVal.at(i).ToString();
@@ -106,9 +110,16 @@ namespace nets {
                     output += "]";
                 }
             }
-        } else if (mInit) {
-            //output = mVal.ToString();
+        }
+        if (mInit) {
+            output += "{";
 
+            for (const auto &n : mVal) {
+                JsonValue data {n.first};
+                output += data.ToString() + ": " + n.second.ToString() + ", ";
+            }
+
+            output = output.substr(0, output.size() - 2) + "}";
         }
 
         return output;
