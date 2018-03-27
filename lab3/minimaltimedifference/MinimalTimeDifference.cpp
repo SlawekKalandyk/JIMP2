@@ -53,5 +53,4 @@ unsigned int MinimalTimeDifference(std::vector<std::string> times){
         return max_difference;
     }
 
-
 }

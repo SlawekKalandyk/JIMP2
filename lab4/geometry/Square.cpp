@@ -53,7 +53,6 @@ namespace geometry{
     }
 
     Square::Square(Point p1, Point p2, Point p3, Point p4) {
-        
         this->p1_ = p1;
         this->p2_ = p2;
         this->p3_ = p3;
