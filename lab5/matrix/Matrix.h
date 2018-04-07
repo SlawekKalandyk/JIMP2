@@ -13,6 +13,11 @@
 using ::std::string;
 using ::std::initializer_list;
 using ::std::vector;
+using ::std::stoi;
+using ::std::to_string;
+using ::std::cout;
+using ::std::endl;
+
 namespace algebra {
     class Matrix {
     public:
@@ -26,17 +31,17 @@ namespace algebra {
 
         ~Matrix();
 
-        Matrix Add(const Matrix &matrix);
+        Matrix Add(const Matrix &input);
 
-        Matrix Sub(const Matrix &matrix);
+        Matrix Sub(const Matrix &input);
 
-        Matrix Mul(const Matrix &matrix);
+        Matrix Mul(const Matrix &input);
 
-        Matrix Div(const Matrix &matrix);
+        Matrix Div(const Matrix &input);
 
-        Matrix Pow(const Matrix &matrix);
+        Matrix Pow(const int &power);
 
-        string Print(const Matrix &matrix);
+        string Print();
 
         vector<int> Size();
 
