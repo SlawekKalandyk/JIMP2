@@ -26,32 +26,32 @@ namespace nets {
 
     JsonValue::JsonValue(int a) {
         iVal = a;
-        iInit = 1;
+        iInit = true;
     }
 
     JsonValue::JsonValue(double a) {
         dVal = a;
-        dInit = 1;
+        dInit = true;
     }
 
     JsonValue::JsonValue(string a) {
         sVal = a;
-        sInit = 1;
+        sInit = true;
     }
 
     JsonValue::JsonValue(bool a) {
         bVal = a;
-        bInit = 1;
+        bInit = true;
     }
 
     JsonValue::JsonValue(vector<JsonValue> a) {
         vVal = a;
-        vInit = 1;
+        vInit = true;
     }
 
     JsonValue::JsonValue(map<string, JsonValue> a) {
         mVal = a;
-        mInit = 1;
+        mInit = true;
     }
 
     optional<JsonValue> JsonValue::ValueByName(const string &name) const {

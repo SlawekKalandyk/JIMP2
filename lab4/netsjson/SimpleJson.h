@@ -49,12 +49,12 @@ namespace nets {
         bool bVal;
         vector<JsonValue> vVal;
         map<string, JsonValue> mVal;
-        bool iInit = 0;
-        bool dInit = 0;
-        bool bInit = 0;
-        bool sInit = 0;
-        bool vInit = 0;
-        bool mInit = 0;
+        bool iInit = false;
+        bool dInit = false;
+        bool bInit = false;
+        bool sInit = false;
+        bool vInit = false;
+        bool mInit = false;
 
     };
 }

@@ -1,0 +1,14 @@
+//
+// Created by slawek on 25.03.18.
+//
+
+#ifndef JIMP_EXERCISES_SIMPLETEMPLATEENGINE_H
+#define JIMP_EXERCISES_SIMPLETEMPLATEENGINE_H
+
+
+class SimpleTemplateEngine {
+
+};
+
+
+#endif //JIMP_EXERCISES_SIMPLETEMPLATEENGINE_H
