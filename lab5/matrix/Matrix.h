@@ -23,25 +23,44 @@ namespace algebra {
     public:
         Matrix() {};
 
-        Matrix(const int &nrows, const int &ncols) : rows(nrows), cols(ncols) {};
+        Matrix(const int &nrows, const int &ncols) : rows(nrows), cols(ncols) {
+            matrix = new std::complex<double>[rows * cols];
+            for (int i = 0; i < rows; i++) {
+                for (int j = 0; j < cols; j++) {
+                    matrix[i * cols * j] = 0;
+                }
+            }
+        };
 
         Matrix(initializer_list<vector<std::complex<double>>> list);
 
-        Matrix(string str);
+        Matrix(const string str);
 
         ~Matrix();
 
-        Matrix Add(const Matrix &input);
+        Matrix(const Matrix &matrix); // copy constructor
 
-        Matrix Sub(const Matrix &input);
+        Matrix(Matrix &&matrix); // move constructor
 
-        Matrix Mul(const Matrix &input);
+        Matrix &operator=(const Matrix &matrix); // copy operator
 
-        Matrix Div(const Matrix &input);
+        Matrix &operator=(Matrix &&matrix); // move operator
 
-        Matrix Pow(const int &power);
+        Matrix Add(const Matrix &input) const;
 
-        string Print();
+        Matrix Sub(const Matrix &input) const;
+
+        Matrix Mul(const Matrix &input) const;
+
+        Matrix Mul(const std::complex<double> &n) const;
+
+        Matrix Div(const Matrix &input) const;
+
+        Matrix Div(const std::complex<double> &n) const;
+
+        Matrix Pow(const int &power) const;
+
+        string Print() const;
 
         vector<int> Size();
 

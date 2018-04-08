@@ -9,8 +9,9 @@ using ::std::endl;
 using namespace algebra;
 
 int main(int argc, char* argv[]){
-    Matrix m1("[3i0, 2i0; 4i0, 5i0]");
+    Matrix m1("[3i0, 2i3; 4i8, 5i0]");
     //Matrix m2(argv[2]);
+
 
     cout << "Macierz pierwsza: " << m1.Print() << endl;
     //cout << "Macierz druga: " << m2.Print() << endl;
