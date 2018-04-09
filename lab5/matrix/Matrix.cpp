@@ -222,7 +222,7 @@ namespace algebra {
         return result;
     }
 
-    vector<int> Matrix::Size() {
-        return {rows, cols};
+    std::pair<long unsigned int, long unsigned int> Matrix::Size() {
+        return std::make_pair(rows, cols);
     }
 }

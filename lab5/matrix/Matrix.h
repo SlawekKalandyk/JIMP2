@@ -63,11 +63,11 @@ namespace algebra {
 
         string Print() const;
 
-        vector<int> Size();
+        std::pair<long unsigned int, long unsigned int> Size();
 
 
     private:
-        int rows = 0, cols = 0;
+        long unsigned int rows = 0, cols = 0;
         std::complex<double> *matrix = nullptr;
     };
 }
