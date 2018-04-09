@@ -60,7 +60,7 @@ namespace algebra {
 
         std::pair<size_t, size_t> Size();
 
-        Matrix Empty();
+        Matrix Empty(Matrix &input);
 
 
     private:

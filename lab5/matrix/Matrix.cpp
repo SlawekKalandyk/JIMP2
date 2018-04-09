@@ -107,7 +107,7 @@ namespace algebra {
 
             return result;
         } else {
-            return result.Empty();
+            return result.Empty(result);
         }
     }
 
@@ -123,7 +123,7 @@ namespace algebra {
 
             return result;
         } else {
-            return result.Empty();
+            return result.Empty(result);
         }
     }
 
@@ -142,7 +142,7 @@ namespace algebra {
 
             return result;
         } else {
-            return result.Empty();
+            return result.Empty(result);
         }
     }
 
@@ -240,9 +240,9 @@ namespace algebra {
         return std::make_pair(rows, cols);
     }
 
-    Matrix Matrix::Empty() {
+    Matrix Matrix::Empty(Matrix &input) {
         Matrix empty;
-
-        return empty;
+        input = empty;
+        return input;
     }
 }
