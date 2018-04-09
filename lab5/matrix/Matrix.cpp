@@ -104,9 +104,11 @@ namespace algebra {
                     result.matrix[i * cols + j] = this->matrix[i * cols + j] + input.matrix[i * cols + j];
                 }
             }
-        }
 
-        return result;
+            return result;
+        } else {
+            return result.Empty();
+        }
     }
 
     Matrix Matrix::Sub(const Matrix &input) const {
@@ -118,29 +120,30 @@ namespace algebra {
                     result.matrix[i * cols + j] = this->matrix[i * cols + j] - input.matrix[i * cols + j];
                 }
             }
-        }
 
-        return result;
+            return result;
+        } else {
+            return result.Empty();
+        }
     }
 
     Matrix Matrix::Mul(const Matrix &input) const {
-        Matrix result{rows, cols};
-        std::complex<double> sum;
+        Matrix result{rows, input.cols};
 
         if (cols == input.rows) {
             for (int i = 0; i < rows; i++) {
                 for (int j = 0; j < input.cols; j++) {
                     for (int n = 0; n < cols; n++) {
-                        sum += this->matrix[i * cols + n] * input.matrix[n * cols + j];
+                        result.matrix[i * input.cols + j] +=
+                                this->matrix[i * cols + n] * input.matrix[n * input.cols + j];
                     }
-
-                    result.matrix[i * cols + j] = sum;
-                    sum = 0;
                 }
             }
-        }
 
-        return result;
+            return result;
+        } else {
+            return result.Empty();
+        }
     }
 
     Matrix Matrix::Mul(const std::complex<double> &n) const {
@@ -178,8 +181,19 @@ namespace algebra {
     Matrix Matrix::Pow(const int &power) const {
         Matrix result{*this};
 
-        for (int i = 0; i < power - 1; i++) {
-            result = result.Mul(*this);
+        if (power != 0) {
+            for (int i = 0; i < power - 1; i++) {
+                result = result.Mul(*this);
+            }
+        } else {
+            for (int i = 0; i < result.rows; i++) {
+                for (int j = 0; j < result.cols; j++) {
+                    if (i == j)
+                        result.matrix[i * cols + j] = 1;
+                    else
+                        result.matrix[i * cols + j] = 0;
+                }
+            }
         }
 
         return result;
@@ -222,7 +236,13 @@ namespace algebra {
         return result;
     }
 
-    std::pair<long unsigned int, long unsigned int> Matrix::Size() {
+    std::pair<size_t, size_t> Matrix::Size() {
         return std::make_pair(rows, cols);
+    }
+
+    Matrix Matrix::Empty() {
+        Matrix empty;
+
+        return empty;
     }
 }

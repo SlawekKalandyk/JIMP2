@@ -24,13 +24,8 @@ namespace algebra {
     public:
         Matrix() {};
 
-        Matrix(const int &nrows, const int &ncols) : rows(nrows), cols(ncols) {
+        Matrix(const size_t &nrows, const size_t &ncols) : rows(nrows), cols(ncols) {
             matrix = new std::complex<double>[rows * cols];
-            for (int i = 0; i < rows; i++) {
-                for (int j = 0; j < cols; j++) {
-                    matrix[i * cols * j] = 0;
-                }
-            }
         };
 
         Matrix(initializer_list<vector<std::complex<double>>> list);
@@ -63,11 +58,13 @@ namespace algebra {
 
         string Print() const;
 
-        std::pair<long unsigned int, long unsigned int> Size();
+        std::pair<size_t, size_t> Size();
+
+        Matrix Empty();
 
 
     private:
-        long unsigned int rows = 0, cols = 0;
+        size_t rows = 0, cols = 0;
         std::complex<double> *matrix = nullptr;
     };
 }
