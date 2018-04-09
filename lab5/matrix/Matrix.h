@@ -9,6 +9,7 @@
 #include <complex>
 #include <string>
 #include <vector>
+#include <algorithm>
 
 using ::std::string;
 using ::std::initializer_list;
@@ -34,17 +35,17 @@ namespace algebra {
 
         Matrix(initializer_list<vector<std::complex<double>>> list);
 
-        Matrix(const string str);
+        Matrix(string str);
 
         ~Matrix();
 
-        Matrix(const Matrix &matrix); // copy constructor
+        Matrix(const Matrix &input); // copy constructor
 
-        Matrix(Matrix &&matrix); // move constructor
+        //Matrix(Matrix &&matrix); // move constructor
 
-        Matrix &operator=(const Matrix &matrix); // copy operator
+        Matrix &operator=(const Matrix &input); // copy operator
 
-        Matrix &operator=(Matrix &&matrix); // move operator
+        //Matrix &operator=(Matrix &&matrix); // move operator
 
         Matrix Add(const Matrix &input) const;
 

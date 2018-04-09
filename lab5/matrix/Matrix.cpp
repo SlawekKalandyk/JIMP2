@@ -6,7 +6,7 @@
 
 namespace algebra {
 
-    Matrix::Matrix(const string str) {
+    Matrix::Matrix(string str) {
         int subBegin, subEnd, elementCounter = 0;
         double real, imag;
 
@@ -71,54 +71,71 @@ namespace algebra {
         delete[] matrix;
     }
 
-    Matrix::Matrix(const Matrix &matrix) {
-
+    Matrix::Matrix(const Matrix &input) { //no idea if it works
+        matrix = new std::complex<double>[input.rows * input.cols];
+        rows = input.rows;
+        cols = input.cols;
+        std::copy_n(input.matrix, rows * cols, matrix);
     }
 
-    Matrix::Matrix(Matrix &&matrix) {
+    //Matrix::Matrix(Matrix &&matrix) {}
 
+    Matrix &Matrix::operator=(const Matrix &input) { //no idea if it works
+        if (this == &input) {
+            return *this;
+        }
+
+        delete[] matrix;
+
+        matrix = new std::complex<double>[input.rows * input.cols];
+        rows = input.rows;
+        cols = input.cols;
+        std::copy_n(input.matrix, rows * cols, matrix);
     }
 
-    Matrix &Matrix::operator=(const Matrix &matrix) {
-
-    }
-
-    Matrix &Matrix::operator=(Matrix &&matrix) {
-
-    }
+    //Matrix &Matrix::operator=(Matrix &&matrix) {}
 
     Matrix Matrix::Add(const Matrix &input) const {
         Matrix result{rows, cols};
 
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < cols; j++) {
-                result.matrix[i * cols + j] = this->matrix[i * cols + j] + input.matrix[i * cols + j];
+        if (rows == input.rows && cols == input.cols) {
+            for (int i = 0; i < rows; i++) {
+                for (int j = 0; j < cols; j++) {
+                    result.matrix[i * cols + j] = this->matrix[i * cols + j] + input.matrix[i * cols + j];
+                }
             }
         }
+
+        return result;
     }
 
     Matrix Matrix::Sub(const Matrix &input) const {
         Matrix result{rows, cols};
 
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < cols; j++) {
-                result.matrix[i * cols + j] = this->matrix[i * cols + j] - input.matrix[i * cols + j];
+        if (rows == input.rows && cols == input.cols) {
+            for (int i = 0; i < rows; i++) {
+                for (int j = 0; j < cols; j++) {
+                    result.matrix[i * cols + j] = this->matrix[i * cols + j] - input.matrix[i * cols + j];
+                }
             }
         }
+
+        return result;
     }
 
     Matrix Matrix::Mul(const Matrix &input) const {
         Matrix result{rows, cols};
-        std::complex<double> dataHolder;
+        std::complex<double> sum;
 
         if (cols == input.rows) {
             for (int i = 0; i < rows; i++) {
                 for (int j = 0; j < input.cols; j++) {
                     for (int n = 0; n < cols; n++) {
-                        dataHolder += this->matrix[i * cols + n] * input.matrix[n * cols + j];
+                        sum += this->matrix[i * cols + n] * input.matrix[n * cols + j];
                     }
 
-                    result.matrix[i * cols + j] = dataHolder;
+                    result.matrix[i * cols + j] = sum;
+                    sum = 0;
                 }
             }
         }
@@ -134,9 +151,11 @@ namespace algebra {
                 result.matrix[i * cols + j] = n * this->matrix[i * cols + j];
             }
         }
+
+        return result;
     }
 
-    Matrix Matrix::Div(const Matrix &input) const {
+    Matrix Matrix::Div(const Matrix &input) const { //to do
 
     }
 
@@ -145,20 +164,22 @@ namespace algebra {
 
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
-                if (n.real() == 0 && n.imag() == 0) {}
-                else {
+                if (n.real() == 0 && n.imag() == 0) {
+
+                } else {
                     result.matrix[i * cols + j] = this->matrix[i * cols + j] / n;
                 }
             }
         }
+
+        return result;
     }
 
     Matrix Matrix::Pow(const int &power) const {
-        Matrix result{rows, cols};
-        result.matrix = matrix; // to do
+        Matrix result{*this};
 
-        for (int i = 0; i < power; i++) {
-            result = result.Mul(result);
+        for (int i = 0; i < power - 1; i++) {
+            result = result.Mul(*this);
         }
 
         return result;
@@ -204,5 +225,4 @@ namespace algebra {
     vector<int> Matrix::Size() {
         return {rows, cols};
     }
-
 }
