@@ -27,8 +27,8 @@ namespace datastructures {
         return counts_;
     }
 
-    WordCounter::WordCounter(initializer_list<Word> wordList) {
-        for (const auto &i: wordList)
+    WordCounter::WordCounter(const initializer_list<Word> &wordList) {
+        for (auto i: wordList)
             ++(dict[i]);
     }
 
@@ -54,11 +54,52 @@ namespace datastructures {
         return words;
     }
 
-    Counts WordCounter::operator[](const string &word) {
+    Counts WordCounter::operator[](const string &word) const {
         if (dict.find(word) == dict.end())
             return Counts{0};
         else
             return dict.find(word)->second;
+    }
+
+    WordCounter WordCounter::FromInputStream(ifstream *is) {
+        WordCounter counter;
+        string str;
+        size_t start, end;
+
+        if (is->is_open()) {
+            while (getline(*is, str)) {
+                for (size_t i = 0; i < str.size(); ++i) {
+                    start = i;
+
+                    while ((str[i] > 64 && str[i] < 91) || (str[i] > 96 && str[i] < 123))
+                        ++i;
+
+                    end = i;
+
+                    if (start != end) {
+                        ++(counter.dict[str.substr(start, end - start)]);
+                    }
+                }
+            }
+
+            is->close();
+        } else
+            cout << "Unable to open file" << endl;
+
+        return counter;
+    }
+
+    WordCounter::WordCounter(WordCounter &&counter) {
+        swap(dict, counter.dict);
+    }
+
+    WordCounter &WordCounter::operator=(WordCounter &&counter) {
+        if (this == &counter)
+            return counter;
+
+        dict.clear();
+
+        swap(dict, counter.dict);
     }
 
     string Word::GetWord() const {
@@ -72,26 +113,26 @@ namespace datastructures {
     bool Word::operator<(const Word &w) const { // like above
         int i = 0;
 
-        while(i < word_.size() && i < w.word_.size()) {
-            if(word_[i] != w.word_[i])
+        while (i < word_.size() && i < w.word_.size()) {
+            if (word_[i] != w.word_[i])
                 return (word_[i] < w.word_[i]);
 
             ++i;
         }
 
-        return false;
+        return (word_.size() < w.word_.size());
     }
 
     bool Word::operator>(const Word &w) const { // added bcs of the 2 above
         int i = 0;
 
-        while(i < word_.size() && i < w.word_.size()) {
-            if(word_[i] != w.word_[i])
+        while (i < word_.size() && i < w.word_.size()) {
+            if (word_[i] != w.word_[i])
                 return (word_[i] > w.word_[i]);
 
             ++i;
         }
 
-        return false;
+        return (word_.size() < w.word_.size());
     }
 }

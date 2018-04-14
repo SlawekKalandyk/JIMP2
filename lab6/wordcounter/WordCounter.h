@@ -5,20 +5,26 @@
 #ifndef JIMP_EXERCISES_WORDCOUNTER_H
 #define JIMP_EXERCISES_WORDCOUNTER_H
 
+#include <iostream>
 #include <string>
 #include <fstream>
 #include <map>
 #include <set>
 #include <iostream>
 #include <algorithm>
+#include <utility>
 
 using ::std::string;
+using ::std::cout;
+using ::std::endl;
+using ::std::istream;
 using ::std::ifstream;
 using ::std::initializer_list;
 using ::std::map;
 using ::std::set;
 using ::std::pair;
 using ::std::sort;
+using ::std::move;
 
 namespace datastructures {
     class Word {
@@ -65,9 +71,17 @@ namespace datastructures {
     public:
         WordCounter() {};
 
-        WordCounter(initializer_list<Word> wordList);
+        WordCounter(const initializer_list<Word> &wordList);
 
-        Counts operator[](const string &word);
+        WordCounter(WordCounter &&counter); // move constructor
+
+        WordCounter &operator=(WordCounter &&counter); // move operator
+
+        ~WordCounter() { dict.clear(); }
+
+        Counts operator[](const string &word) const;
+
+        static WordCounter FromInputStream(ifstream *is);
 
         int DistinctWords();
 
