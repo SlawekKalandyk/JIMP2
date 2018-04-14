@@ -6,25 +6,16 @@
 
 namespace datastructures {
 
-    bool Counts::operator<(const Counts &c) {
-        if (counts_ < c.GetCounts())
-            return true;
-        else
-            return false;
+    bool Counts::operator<(const Counts &c) const {
+        return (counts_ < c.GetCounts());
     }
 
-    bool Counts::operator>(const Counts &c) {
-        if (counts_ > c.GetCounts())
-            return true;
-        else
-            return false;
+    bool Counts::operator>(const Counts &c) const {
+        return (counts_ > c.GetCounts());
     }
 
-    bool Counts::operator==(const Counts &c) {
-        if (counts_ == c.GetCounts())
-            return true;
-        else
-            return false;
+    bool Counts::operator==(const Counts &c) const {
+        return (counts_ == c.GetCounts());
     }
 
     Counts &Counts::operator++() {
@@ -37,48 +28,83 @@ namespace datastructures {
     }
 
     WordCounter::WordCounter(initializer_list<Word> wordList) {
-        for(auto it = wordList.begin(); it != wordList.end(); ++it) {
-            if(dict.find(*it) == dict.end())
-                dict.emplace(Word(*it), Counts(1));
-            else {
-                ++(dict.find(Word(*it))->second);
+        vector<Word> v(wordList);
+        int counter = 1;
+
+        for (int i = 0; i < v.size(); ++i) {
+            for (int j = i + 1; j < v.size(); ++j) {
+                if (v.at(i) == v.at(j)) {
+                    ++counter;
+                    v.erase(v.begin() + j);
+                    --j;
+                }
             }
+
+            dict.emplace(v.at(i), Counts(counter));
+            counter = 1;
         }
+        // /for (auto i : wordList) { odnośnie tej i innych, dziwnych:
+        //    ++(dict[i]);            probowałem funkcjami mapy - nie wyszło
+        //}                           więc zrobiłem to trochę w sposób brute-force
     }
 
     int WordCounter::DistinctWords() {
-        return dict.size();
+        return (int) dict.size();
     }
 
     int WordCounter::TotalWords() {
         int sum = 0;
 
-        for (auto it = dict.begin(); it != dict.end(); ++it) {
-            sum += it->second.GetCounts();
+        for (auto i: dict) {
+            sum += i.second.GetCounts();
         }
 
         return sum;
     }
 
-    set<string> WordCounter::Words() {
-        set<string> words;
+    set<Word> WordCounter::Words() {
+        set<Word> words;
 
-        for (auto it = dict.begin(); it != dict.end(); ++it) {
-            words.emplace(it->first.GetWord());
-            ++(it->second);
-        }
-
+        for (auto i: dict)
+            words.emplace(i.first);
+        //for (auto &i: words)
+        //    std::cout << i.GetWord() << std::endl;
         return words;
     }
 
-    Counts WordCounter::operator[](string word) {
-        if(dict.find(word) == dict.end())
-            return Counts(0);
-        else
-            return dict.find(word)->second;
+    Counts WordCounter::operator[](const string &word) {
+        for (auto i: dict) {
+            if (i.first.GetWord() == word) {
+                return i.second;
+            }
+        }
+
+        return 0;
+        //if (dict.find(word) == dict.end())
+        //    return Counts{0};
+        //else
+        //    return dict.find(word)->second;
     }
 
     string Word::GetWord() const {
         return word_;
+    }
+
+    bool Word::operator==(const Word &w) const {
+        return (word_ == w.word_);
+    }
+
+    bool Word::operator<(const Word &w) const {
+        int i = 0;
+        while(i < word_.size() && i < w.word_.size()) {
+            if(word_[i] != w.word_[i]) {
+                if(word_[i] < w.word_[i])
+                    return true;
+                else
+                    return false;
+            }
+
+            ++i;
+        }
     }
 }

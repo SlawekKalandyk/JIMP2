@@ -9,17 +9,29 @@
 #include <fstream>
 #include <map>
 #include <set>
+#include <iostream>
+#include <vector>
+#include <algorithm>
 
 using ::std::string;
 using ::std::ifstream;
 using ::std::initializer_list;
 using ::std::map;
 using ::std::set;
+using ::std::pair;
+using ::std::vector;
+using ::std::sort;
 
 namespace datastructures {
     class Word {
     public:
+        Word() {};
+
         Word(const string &word) : word_(word) {};
+
+        bool operator<(const Word &w) const;
+
+        bool operator==(const Word &w) const;
 
         string GetWord() const;
 
@@ -29,22 +41,24 @@ namespace datastructures {
 
     class Counts {
     public:
-        Counts() : counts_(0) {};
+        Counts() {};
 
-        Counts(int counts) : counts_(counts) {};
+        Counts(const int &counts) : counts_(counts) {};
 
-        bool operator<(const Counts &c);
+        bool operator<(const Counts &c) const;
 
-        bool operator>(const Counts &c);
+        bool operator>(const Counts &c) const;
 
-        bool operator==(const Counts &c);
+        bool operator==(const Counts &c) const;
 
         Counts &operator++();
+
+        operator int() const { return counts_; }
 
         int GetCounts() const;
 
     private:
-        int counts_;
+        int counts_ = 0;
     };
 
     class WordCounter {
@@ -53,13 +67,13 @@ namespace datastructures {
 
         WordCounter(initializer_list<Word> wordList);
 
-        Counts operator[](string word);
+        Counts operator[](const string &word);
 
         int DistinctWords();
 
         int TotalWords();
 
-        set<string> Words();
+        set<Word> Words();
 
     private:
         map<Word, Counts> dict;
