@@ -28,7 +28,7 @@ namespace datastructures {
     }
 
     WordCounter::WordCounter(initializer_list<Word> wordList) {
-        for (const auto &i : wordList)
+        for (const auto &i: wordList)
             ++(dict[i]);
     }
 
@@ -75,6 +75,19 @@ namespace datastructures {
         while(i < word_.size() && i < w.word_.size()) {
             if(word_[i] != w.word_[i])
                 return (word_[i] < w.word_[i]);
+
+            ++i;
+        }
+
+        return false;
+    }
+
+    bool Word::operator>(const Word &w) const { // added bcs of the 2 above
+        int i = 0;
+
+        while(i < word_.size() && i < w.word_.size()) {
+            if(word_[i] != w.word_[i])
+                return (word_[i] > w.word_[i]);
 
             ++i;
         }

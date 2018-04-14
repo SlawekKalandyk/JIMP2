@@ -29,6 +29,8 @@ namespace datastructures {
 
         bool operator<(const Word &w) const;
 
+        bool operator>(const Word &w) const;
+
         bool operator==(const Word &w) const;
 
         string GetWord() const;
