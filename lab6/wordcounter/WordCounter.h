@@ -18,6 +18,7 @@ using ::std::string;
 using ::std::cout;
 using ::std::endl;
 using ::std::istream;
+using ::std::ostream;
 using ::std::ifstream;
 using ::std::initializer_list;
 using ::std::map;
@@ -73,13 +74,9 @@ namespace datastructures {
 
         WordCounter(const initializer_list<Word> &wordList);
 
-        WordCounter(WordCounter &&counter); // move constructor
-
-        WordCounter &operator=(WordCounter &&counter); // move operator
-
-        ~WordCounter() { dict.clear(); }
-
         Counts operator[](const string &word) const;
+
+        friend ostream &operator<<(ostream &out, const WordCounter &counter);
 
         static WordCounter FromInputStream(ifstream *is);
 

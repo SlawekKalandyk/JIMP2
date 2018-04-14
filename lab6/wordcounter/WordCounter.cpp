@@ -61,6 +61,23 @@ namespace datastructures {
             return dict.find(word)->second;
     }
 
+    ostream &operator<<(ostream &out, const WordCounter &counter) {
+        set<pair<int, string>> temp;
+        int sum = 0;
+
+        for (auto i: counter.dict) {
+            temp.emplace(i.second, i.first.GetWord());
+            sum += i.second;
+        }
+
+        out << "Total words: " << sum << endl << "Distinct words: " << temp.size() << endl;
+
+        for (auto rit = temp.rbegin(); rit != temp.rend(); ++rit)
+            out << "Counts: " << rit->first << "\t| Word: " << rit->second << endl;
+
+        return out;
+    }
+
     WordCounter WordCounter::FromInputStream(ifstream *is) {
         WordCounter counter;
         string str;
@@ -87,19 +104,6 @@ namespace datastructures {
             cout << "Unable to open file" << endl;
 
         return counter;
-    }
-
-    WordCounter::WordCounter(WordCounter &&counter) {
-        swap(dict, counter.dict);
-    }
-
-    WordCounter &WordCounter::operator=(WordCounter &&counter) {
-        if (this == &counter)
-            return counter;
-
-        dict.clear();
-
-        swap(dict, counter.dict);
     }
 
     string Word::GetWord() const {

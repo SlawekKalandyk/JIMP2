@@ -8,11 +8,12 @@
 using namespace datastructures;
 
 int main() {
-    ifstream is("test.txt"); //can't open file
+    ifstream is("/home/slawek/Programming/Repositories/JIMP2/lab6/wordcounter/test.txt");
     WordCounter wc = WordCounter::FromInputStream(&is);
 
-    int ilosc = wc["chrzaszcz"];
-    cout<<ilosc<<endl;
+    int ilosc = wc["trzcinie"];
+    cout << ilosc << endl;
+    cout << wc;
 
     return 0;
 }
