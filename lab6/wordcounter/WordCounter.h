@@ -10,7 +10,6 @@
 #include <map>
 #include <set>
 #include <iostream>
-#include <vector>
 #include <algorithm>
 
 using ::std::string;
@@ -19,7 +18,6 @@ using ::std::initializer_list;
 using ::std::map;
 using ::std::set;
 using ::std::pair;
-using ::std::vector;
 using ::std::sort;
 
 namespace datastructures {
