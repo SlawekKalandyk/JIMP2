@@ -8,10 +8,12 @@
 #include <string>
 #include <vector>
 #include <memory>
+#include <utility>
 
 using ::std::string;
 using ::std::pair;
 using ::std::unique_ptr;
+using ::std::vector;
 
 namespace utility {
 
@@ -28,8 +30,8 @@ namespace utility {
 
     class ZipperIterator : public IterableIterator {
     public:
-        explicit ZipperIterator(std::vector<int>::const_iterator left,
-                                std::vector<std::string>::const_iterator right,
+        explicit ZipperIterator(std::vector<int>::const_iterator left_begin,
+                                std::vector<std::string>::const_iterator right_begin,
                                 std::vector<int>::const_iterator left_end,
                                 std::vector<std::string>::const_iterator right_end);
 
@@ -37,7 +39,11 @@ namespace utility {
 
         IterableIterator &Next() override;
 
+        bool NotEquals(const unique_ptr<IterableIterator>&other) const override;
 
+    private:
+        vector<int>::const_iterator left_, left_end_;
+        vector<string>::const_iterator right_, right_end_;
     };
 
     class Enumerate {
