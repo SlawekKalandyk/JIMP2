@@ -9,12 +9,14 @@ using ::std::cout;
 using ::std::endl;
 
 int main() {
-    vector<int> vi {4, 77, -91};
-    vector<string> vs {"4", "9991", "adfskld"};
+    vector<int> vi = {1, 2, 3};
+    vector<string> vs = {"a", "b", "c"};
 
-    auto it = ZipperIterator(vi.begin(),vs.begin(), vi.end(), vs.end());
-
-    std::unique_ptr<IterableIterator> next_it = std::make_unique<ZipperIterator>(vi.begin()+1,vs.begin()+1, vi.end(), vs.end());
+    Zipper z(vi, vs);
+    unique_ptr<IterableIterator> it = z.ConstBegin();
+    return it->NotEquals(z.ConstEnd());
+//    for(unique_ptr<IterableIterator> it = z.ConstBegin(); it->NotEquals(z.ConstEnd());)//it->Next())
+//        pair<int, string> current = it->Dereference();
 
     return 0;
 }
