@@ -14,6 +14,7 @@ using ::std::string;
 using ::std::pair;
 using ::std::unique_ptr;
 using ::std::vector;
+using ::std::initializer_list;
 
 namespace utility {
 
@@ -39,11 +40,25 @@ namespace utility {
 
         IterableIterator &Next() override;
 
-        bool NotEquals(const unique_ptr<IterableIterator>&other) const override;
+        bool NotEquals(const unique_ptr<IterableIterator> &other) const override;
 
     private:
         vector<int>::const_iterator left_, left_end_;
         vector<string>::const_iterator right_, right_end_;
+    };
+
+    class IterableIteratorWrapper {
+    public:
+        IterableIteratorWrapper(unique_ptr<IterableIterator> iterator);
+
+        bool operator!=(const IterableIteratorWrapper &other);
+
+        pair<int, string> operator*();
+
+        IterableIteratorWrapper &operator++();
+
+    private:
+        unique_ptr<IterableIterator> iterator_;
     };
 
     class Enumerate {
