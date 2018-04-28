@@ -13,7 +13,7 @@ int main() {
     vector<string> vs = {"a", "b", "c"};
 
     for (const auto &p : Product(vi, vs)) {
-        return 1;
+        cout << "a"<< endl;
     }
 
     return 0;
