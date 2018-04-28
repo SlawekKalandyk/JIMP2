@@ -12,11 +12,9 @@ int main() {
     vector<int> vi = {1, 2, 3};
     vector<string> vs = {"a", "b", "c"};
 
-    Zipper z(vi, vs);
-    unique_ptr<IterableIterator> it = z.ConstBegin();
-    return it->NotEquals(z.ConstEnd());
-//    for(unique_ptr<IterableIterator> it = z.ConstBegin(); it->NotEquals(z.ConstEnd());)//it->Next())
-//        pair<int, string> current = it->Dereference();
+    for (const auto &p : Product(vi, vs)) {
+        return 1;
+    }
 
     return 0;
 }

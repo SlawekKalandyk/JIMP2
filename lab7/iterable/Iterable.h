@@ -19,6 +19,8 @@ using ::std::initializer_list;
 using ::std::make_unique;
 using ::std::cout;
 using ::std::endl;
+using ::std::make_pair;
+
 namespace utility {
 
     class IterableIterator {
