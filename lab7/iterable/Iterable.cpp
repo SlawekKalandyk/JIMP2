@@ -48,33 +48,6 @@ namespace utility {
         return cend();
     }
 
-    ZipperIterator::ZipperIterator(std::vector<int>::const_iterator left_begin,
-                                   std::vector<std::string>::const_iterator right_begin,
-                                   std::vector<int>::const_iterator left_end,
-                                   std::vector<std::string>::const_iterator right_end) {
-        left_ = left_begin;
-        left_end_ = left_end;
-        right_ = right_begin;
-        right_end_ = right_end;
-    }
-
-    pair<int, string> ZipperIterator::Dereference() const {
-        return make_pair(*left_, *right_);
-    }
-
-    IterableIterator &ZipperIterator::Next() {
-        if (left_ != left_end_ && right_ != right_end_) {
-            ++left_;
-            ++right_;
-        }
-
-        return *this;
-    }
-
-    bool ZipperIterator::NotEquals(const unique_ptr<IterableIterator> &other) const {
-        return left_ != other->GetLeft() && right_ != other->GetRight();
-    }
-
     Zipper::Zipper(vector<int> vi, vector<string> vs) {
         vs_ = move(vs);
         vi_ = move(vi);
@@ -92,93 +65,11 @@ namespace utility {
         }
     }
 
-    unique_ptr<IterableIterator> Zipper::ConstBegin() const {
-        ZipperIterator z(vi_.begin(), vs_.begin(), vi_.end(), vs_.end());
-        unique_ptr<IterableIterator> begin = make_unique<ZipperIterator>(z);
-
-        return begin;
-    }
-
-    unique_ptr<IterableIterator> Zipper::ConstEnd() const {
-        ZipperIterator z(vi_.end(), vs_.end(), vi_.end(), vs_.end());
-        unique_ptr<IterableIterator> end = make_unique<ZipperIterator>(z);
-
-        return end;
-    }
-
-    EnumerateIterator::EnumerateIterator(std::vector<int>::const_iterator left_begin,
-                                         std::vector<std::string>::const_iterator right_begin,
-                                         std::vector<int>::const_iterator left_end,
-                                         std::vector<std::string>::const_iterator right_end) {
-        left_ = left_begin;
-        left_end_ = left_end;
-        right_ = right_begin;
-        right_end_ = right_end;
-    }
-
-    pair<int, string> EnumerateIterator::Dereference() const {
-        return make_pair(*left_, *right_);
-    }
-
-    IterableIterator &EnumerateIterator::Next() {
-        if (left_ != left_end_ && right_ != right_end_) {
-            ++left_;
-            ++right_;
-        }
-
-        return *this;
-    }
-
-    bool EnumerateIterator::NotEquals(const unique_ptr<IterableIterator> &other) const {
-        return left_ != other->GetLeft() && right_ != other->GetRight();
-    }
-
     Enumerate::Enumerate(vector<string> vs) {
         vs_ = move(vs);
 
         for (int i = 1; i < vs_.size() + 1; i++)
             vi_.emplace_back(i);
-    }
-
-    unique_ptr<IterableIterator> Enumerate::ConstBegin() const {
-        EnumerateIterator e(vi_.begin(), vs_.begin(), vi_.end(), vs_.end());
-        unique_ptr<IterableIterator> begin = make_unique<EnumerateIterator>(e);
-
-        return begin;
-    }
-
-    unique_ptr<IterableIterator> Enumerate::ConstEnd() const {
-        EnumerateIterator e(vi_.end(), vs_.end(), vi_.end(), vs_.end());
-        unique_ptr<IterableIterator> end = make_unique<EnumerateIterator>(e);
-
-        return end;
-    }
-
-    ProductIterator::ProductIterator(std::vector<int>::const_iterator left_begin,
-                                     std::vector<std::string>::const_iterator right_begin,
-                                     std::vector<int>::const_iterator left_end,
-                                     std::vector<std::string>::const_iterator right_end) {
-        left_ = left_begin;
-        left_end_ = left_end;
-        right_ = right_begin;
-        right_end_ = right_end;
-    }
-
-    pair<int, string> ProductIterator::Dereference() const {
-        return make_pair(*left_, *right_);
-    }
-
-    IterableIterator &ProductIterator::Next() {
-        if (left_ != left_end_ && right_ != right_end_) {
-            ++left_;
-            ++right_;
-        }
-
-        return *this;
-    }
-
-    bool ProductIterator::NotEquals(const unique_ptr<IterableIterator> &other) const {
-        return left_ != other->GetLeft() && right_ != other->GetRight();
     }
 
     Product::Product(vector<int> vi, vector<string> vs) {
@@ -190,18 +81,44 @@ namespace utility {
         }
     }
 
-    unique_ptr<IterableIterator> Product::ConstBegin() const {
-        ProductIterator p(vi_.begin(), vs_.begin(), vi_.end(), vs_.end());
-        unique_ptr<IterableIterator> begin = make_unique<ProductIterator>(p);
+    GeneralIterator::GeneralIterator(std::vector<int>::const_iterator left_begin,
+                                     std::vector<std::string>::const_iterator right_begin,
+                                     std::vector<int>::const_iterator left_end,
+                                     std::vector<std::string>::const_iterator right_end) {
+        left_ = left_begin;
+        left_end_ = left_end;
+        right_ = right_begin;
+        right_end_ = right_end;
+    }
+
+    pair<int, string> GeneralIterator::Dereference() const {
+        return make_pair(*left_, *right_);
+    }
+
+    IterableIterator &GeneralIterator::Next() {
+        if (left_ != left_end_ && right_ != right_end_) {
+            ++left_;
+            ++right_;
+        }
+
+        return *this;
+    }
+
+    bool GeneralIterator::NotEquals(const unique_ptr<IterableIterator> &other) const {
+        return left_ != other->GetLeft() && right_ != other->GetRight();
+    }
+
+    unique_ptr<IterableIterator> GeneralIterable::ConstBegin() const {
+        GeneralIterator g(vi_.begin(), vs_.begin(), vi_.end(), vs_.end());
+        unique_ptr<IterableIterator> begin = make_unique<GeneralIterator>(g);
 
         return begin;
     }
 
-    unique_ptr<IterableIterator> Product::ConstEnd() const {
-        ProductIterator p(vi_.end(), vs_.end(), vi_.end(), vs_.end());
-        unique_ptr<IterableIterator> end = make_unique<ProductIterator>(p);
+    unique_ptr<IterableIterator> GeneralIterable::ConstEnd() const {
+        GeneralIterator g(vi_.end(), vs_.end(), vi_.end(), vs_.end());
+        unique_ptr<IterableIterator> end = make_unique<GeneralIterator>(g);
 
         return end;
     }
-
 }
