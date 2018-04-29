@@ -62,7 +62,7 @@ namespace utility {
                                 std::vector<std::string>::const_iterator right_begin,
                                 std::vector<int>::const_iterator left_end,
                                 std::vector<std::string>::const_iterator right_end)
-                : GeneralIterator(left_begin, right_begin, left_end, right_end) {};;
+                : GeneralIterator(left_begin, right_begin, left_end, right_end) {};
 
     };
 
@@ -72,7 +72,7 @@ namespace utility {
                                    std::vector<std::string>::const_iterator right_begin,
                                    std::vector<int>::const_iterator left_end,
                                    std::vector<std::string>::const_iterator right_end)
-                : GeneralIterator(left_begin, right_begin, left_end, right_end) {};;
+                : GeneralIterator(left_begin, right_begin, left_end, right_end) {};
     };
 
     class ProductIterator : public GeneralIterator {
