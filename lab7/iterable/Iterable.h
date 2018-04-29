@@ -68,10 +68,6 @@ namespace utility {
         IterableIterator &Next() override;
 
         bool NotEquals(const unique_ptr<IterableIterator> &other) const override;
-
-    private:
-        vector<int>::const_iterator left_, left_end_;
-        vector<string>::const_iterator right_, right_end_;
     };
 
     class ProductIterator : public IterableIterator {
@@ -86,10 +82,6 @@ namespace utility {
         IterableIterator &Next() override;
 
         bool NotEquals(const unique_ptr<IterableIterator> &other) const override;
-
-    private:
-        vector<int>::const_iterator left_, left_end_;
-        vector<string>::const_iterator right_, right_end_;
     };
 
     class IterableIteratorWrapper {
