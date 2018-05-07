@@ -22,7 +22,7 @@ using ::std::stoi;
 using ::std::vector;
 using ::std::invalid_argument;
 using ::std::regex;
-using ::std::smatch;
+using ::std::cmatch;
 
 namespace moviesubs {
     class MovieSubtitles {

@@ -14,19 +14,19 @@ namespace moviesubs {
 
         string input;
         regex r(R"(\{(\d+)}\{(\d+)}((?:\{.*})*)(.+))");
-        smatch sm;
+        cmatch cm;
         int frameoffset = (offset_in_micro_seconds * frame_per_second) / 1000;
         int shifted, lineNr = 0;
 
         while (getline(*in, input)) {
             ++lineNr;
 
-            if (std::regex_match(input, sm, r)) {
-                if (sm[2] < sm[1])
+            if (std::regex_match(input.c_str(), cm, r)) {
+                if (cm[2] < cm[1])
                     throw SubtitleEndBeforeStart(lineNr, input);
 
                 for (int i = 1; i <= 2; ++i) {
-                    shifted = stoi(sm[i]) + frameoffset;
+                    shifted = stoi(cm[i]) + frameoffset;
 
                     if (shifted < 0)
                         throw NegativeFrameAfterShift(lineNr, input);
@@ -35,7 +35,7 @@ namespace moviesubs {
 
                 }
 
-                *out << sm[3] << sm[4] << "\n";
+                *out << cm[3] << cm[4] << "\n";
             } else
                 throw InvalidSubtitleLineFormat(lineNr, input);
         }
@@ -49,7 +49,7 @@ namespace moviesubs {
 
         string input;
         regex r(R"((\d{2}):(\d{2}):(\d{2}),(\d{3}) --> (\d{2}):(\d{2}):(\d{2}),(\d{3}))");
-        smatch sm;
+        cmatch cm;
         int lineNr = 0, counter = 0;
         vector<int> frameOrder;
 
@@ -69,19 +69,19 @@ namespace moviesubs {
                     break;
 
                 case 2:
-                    if (std::regex_match(input, sm, r)) {
+                    if (std::regex_match(input.c_str(), cm, r)) {
                         int m = 60, s = 60, ms = 1000;
                         vector<int> times;
                         vector<string> timesStr;
-                        int microsecSum1 = stoi(sm[1]) * m * s * ms +
-                                           stoi(sm[2]) * s * ms +
-                                           stoi(sm[3]) * ms +
-                                           stoi(sm[4]) +
+                        int microsecSum1 = stoi(cm[1]) * m * s * ms +
+                                           stoi(cm[2]) * s * ms +
+                                           stoi(cm[3]) * ms +
+                                           stoi(cm[4]) +
                                            offset_in_micro_seconds;
-                        int microsecSum2 = stoi(sm[5]) * m * s * ms +
-                                           stoi(sm[6]) * s * ms +
-                                           stoi(sm[7]) * ms +
-                                           stoi(sm[8]) +
+                        int microsecSum2 = stoi(cm[5]) * m * s * ms +
+                                           stoi(cm[6]) * s * ms +
+                                           stoi(cm[7]) * ms +
+                                           stoi(cm[8]) +
                                            offset_in_micro_seconds;
 
                         if (microsecSum1 < 0 || microsecSum2 < 0)
