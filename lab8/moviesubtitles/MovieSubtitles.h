@@ -41,13 +41,13 @@ namespace moviesubs {
 
     class SubtitlesException : public invalid_argument {
     public:
-        SubtitlesException();
+        SubtitlesException() : invalid_argument("") {};
 
         SubtitlesException(int lineNr, string line);
 
         virtual int LineAt() const;
 
-        virtual const char* what() const throw() {return msg.c_str();};
+        virtual const char *what() const throw() { return msg.c_str(); };
 
     private:
         int lineNr_;
@@ -66,6 +66,16 @@ namespace moviesubs {
     };
 
     class InvalidSubtitleLineFormat : public SubtitlesException {
+    public:
+        using SubtitlesException::SubtitlesException;
+    };
+
+    class OutOfOrderFrames : public SubtitlesException {
+    public:
+        using SubtitlesException::SubtitlesException;
+    };
+
+    class MissingTimeSpecification : public SubtitlesException {
     public:
         using SubtitlesException::SubtitlesException;
     };
