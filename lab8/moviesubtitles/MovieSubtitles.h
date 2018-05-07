@@ -47,30 +47,33 @@ namespace moviesubs {
 
         virtual int LineAt() const;
 
-        int lineNr_;
+        virtual const char* what() const throw() {return msg.c_str();};
 
+    private:
+        int lineNr_;
         string line_;
+        string msg;
     };
 
     class NegativeFrameAfterShift : public SubtitlesException {
     public:
+        using SubtitlesException::SubtitlesException;
     };
 
     class SubtitleEndBeforeStart : public SubtitlesException {
     public:
+        using SubtitlesException::SubtitlesException;
     };
 
     class InvalidSubtitleLineFormat : public SubtitlesException {
     public:
+        using SubtitlesException::SubtitlesException;
     };
 
     class SubRipSubtitles : public MovieSubtitles {
     public:
         void ShiftAllSubtitlesBy(int offset_in_micro_seconds, int frame_per_second,
                                  std::istream *in, std::ostream *out) override;
-
-        void TimeEmplaceBack(vector<int> &time, const int &inputCharNr,
-                             const int &charNr, const string &input);
     };
 
 }
