@@ -156,4 +156,31 @@ namespace academia {
 
         *out_ <<"]";
     }
+
+    vector<reference_wrapper<const Serializable>> BuildingRepository::Wrapper() const {
+        vector<reference_wrapper<const Serializable>> result;
+
+        for(auto &i: buildingList_) {
+            result.emplace_back(cref(i));
+        }
+
+        return result;
+    }
+
+    void BuildingRepository::StoreAll(Serializer *ser) const {
+        ser->Header("building_repository");
+        ser->ArrayField("buildings", Wrapper());
+        ser->Footer("building_repository");
+    }
+
+    void BuildingRepository::Add(Building building){
+        buildingList_.emplace_back(building);
+    }
+
+    std::experimental::optional<Building> BuildingRepository::operator[](int id) const {
+        for(auto &i: buildingList_) {
+            if(i.Id() == id)
+                return i;
+        }
+    }
 }

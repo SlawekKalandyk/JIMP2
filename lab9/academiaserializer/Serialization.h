@@ -10,6 +10,7 @@
 #include <vector>
 #include <functional>
 #include <sstream>
+#include <experimental/optional>
 
 using ::std::ostream;
 using ::std::string;
@@ -20,6 +21,7 @@ using ::std::initializer_list;
 using ::std::cref;
 using ::std::ostringstream;
 using ::std::stringstream;
+using ::std::experimental::optional;
 
 namespace academia {
 
@@ -32,7 +34,7 @@ namespace academia {
 
     class Serializer {
     public:
-        //Serializer(ostream *out) : out_(out) {};
+        Serializer(ostream *out) {};
 
         Serializer(stringstream *out) : out_(out) {};
 
@@ -75,7 +77,7 @@ namespace academia {
         void SerializableField(const string &field_name, const academia::Serializable &value) override;
 
         void ArrayField(const string &field_name,
-                                const vector<reference_wrapper<const academia::Serializable>> &value) override;
+                        const vector<reference_wrapper<const academia::Serializable>> &value) override;
     };
 
     class JsonSerializer : public Serializer {
@@ -97,7 +99,7 @@ namespace academia {
         void SerializableField(const string &field_name, const academia::Serializable &value) override;
 
         void ArrayField(const string &field_name,
-                                const vector<reference_wrapper<const academia::Serializable>> &value) override;
+                        const vector<reference_wrapper<const academia::Serializable>> &value) override;
     };
 
     class Room : public Serializable {
@@ -125,8 +127,8 @@ namespace academia {
         Building(int id, string buildingName, vector<Room> roomList);
 
         vector<reference_wrapper<const Serializable>> Wrapper() const;
-        //dlaczego jako argument nie może być vector<Serializable>
-        //a wywolanie z vector<Room>?
+
+        int Id() const { return id_; };
 
         void Serialize(Serializer *ser) const override;
 
@@ -134,6 +136,27 @@ namespace academia {
         int id_;
         string buildingName_;
         vector<Room> roomList_;
+    };
+
+    class BuildingRepository {
+    public:
+        BuildingRepository() {};
+
+        BuildingRepository(Building building) { buildingList_.emplace_back(building); };
+
+        BuildingRepository(vector<Building> buildingList) :
+                buildingList_(buildingList) {};
+
+        vector<reference_wrapper<const Serializable>> Wrapper() const;
+
+        void StoreAll(Serializer *serializer) const;
+
+        void Add(Building building);
+
+        std::experimental::optional<Building> operator[] (int id) const;
+
+    private:
+        vector<Building> buildingList_;
     };
 
 }
