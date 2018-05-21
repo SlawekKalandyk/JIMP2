@@ -68,6 +68,12 @@ namespace academia {
 
         void InsertScheduleItem(const SchedulingItem &item);
 
+        vector<int> FreeTimeSlotsRoomsIncluded(int n_time_slots, int roomNr) const;
+
+        bool IsYearFree(int year, int time_slot) const;
+
+        bool IsTeacherFree(int teacher, int time_slot) const;
+
         size_t Size() const;
 
         SchedulingItem operator[](int n) const;
