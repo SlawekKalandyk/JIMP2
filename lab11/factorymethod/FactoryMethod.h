@@ -10,16 +10,9 @@
 namespace factoryMethod {
 
     template<typename T>
-    class Create {
-    public:
-        Create() { a = new T(); };
-
-        ~Create() { delete a; }
-
-        operator T() const { return *a; };
-    private:
-        T *a;
-    };
+    T Create() {
+        return T();
+    }
 
     class MyType {
     public:
@@ -27,7 +20,6 @@ namespace factoryMethod {
 
         std::string SayHello() { return "hello"; };
     };
-};
-
+}
 
 #endif //JIMP_EXERCISES_FACTORYMETHOD_H
